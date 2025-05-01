@@ -147,6 +147,7 @@
   --sidebar-accent-foreground: oklch(0.2 0.02 260);
   --sidebar-border: oklch(0.75 0.1 260 / 0.3);
   --sidebar-ring: oklch(0.55 0.24 280 / 0.6);
+  
 }
 
 /* Base Styles */

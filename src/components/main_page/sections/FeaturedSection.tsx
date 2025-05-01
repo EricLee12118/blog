@@ -7,42 +7,42 @@ const FeaturedSection = () => {
   const features = [
     {
       title: "Profile",
-      description: "Personal information and skills",
-      content: "A detailed look at my background, skills, and professional interests.",
-      badges: ["React", "Next.js", "TypeScript", "UI/UX"],
+      description: "Background & Skills",
+      content: "MSc in Computer Science at HKU, with solid full-stack development experience.",
+      badges: ["React", "Node.js", "Python", "Full-stack"],
       link: "/profile",
       animationDelay: "0s"
     },
     {
       title: "Experience",
-      description: "Professional journey",
-      content: "Led the development of an enterprise-grade application serving thousands of users.",
+      description: "Professional Journey",
+      content: "Developed multilingual arbitration video conference platform with real-time translation capabilities.",
       extraContent: (
         <p className="text-muted-foreground mb-2">
-          Latest Role: <span className="font-medium text-primary">Senior Developer at XYZ Company</span>
+          Latest Role: <span className="font-medium text-primary">Software Engineer at eBond Arbitration Center</span>
         </p>
       ),
       link: "/experience",
       animationDelay: "0.2s"
     },
     {
-      title: "Current Work",
-      description: "Ongoing projects and focus",
-      content: "Working on cutting-edge technologies and solving complex engineering challenges.",
+      title: "Projects",
+      description: "Technical Portfolio",
+      content: "Built various applications including a mobile chat app, online Werewolf game backend, and personal blog system.",
       extraContent: (
         <p className="text-muted-foreground mb-2">
-          Company: <span className="font-medium text-primary">Current Employer</span>
+          Tech Stack: <span className="font-medium text-primary">React Native, Go, Next.js</span>
         </p>
       ),
-      link: "/current-work",
+      link: "/projects",
       animationDelay: "0.4s"
     },
     {
-      title: "Engineering",
-      description: "Technical topics and insights",
-      content: "Explore selected engineering topics including architecture patterns, performance optimization, and more.",
-      badges: ["System Design", "Algorithms"],
-      link: "/engineering",
+      title: "Achievements",
+      description: "Awards & Recognition",
+      content: "EY Hackathon Competition Finalist, First-Class Outstanding Student Award at Jinan University.",
+      badges: ["Academic Excellence", "Technical Competitions"],
+      link: "/achievements",
       animationDelay: "0.6s"
     }
   ];
