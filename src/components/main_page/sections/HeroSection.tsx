@@ -1,7 +1,17 @@
+'use client'
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { MoveRight } from 'lucide-react';
+
+const downloadCV = (): void => {
+  const link: HTMLAnchorElement = document.createElement('a');
+  link.href = '/LiXinlei_CV.pdf'; 
+  link.download = 'LiXinlei_CV';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 const HeroSection = () => (
   <section className="py-12 md:py-16 animate-fade-in">
@@ -32,7 +42,7 @@ const HeroSection = () => (
             View Profile
             <MoveRight className="ml-2 h-4 w-4" />
           </Button>
-          <Button variant="outline" size="lg" className="sci-fi-button">
+          <Button variant="outline" size="lg" className="sci-fi-button" onClick={() => downloadCV()}>
             Download Resume
           </Button>
         </div>
