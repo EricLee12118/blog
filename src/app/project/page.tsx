@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react'
 import Navbar from '@/components/main_page/Navbar'
 import Footer from '@/components/main_page/Footer'
 import { Button } from '@/components/ui/button'
-import { ChevronDown, Database, LineChart, Lock, MessageSquare, Search, Server, User } from 'lucide-react'
+import { ChevronDown, LineChart, MessageSquare, Server, User, Globe, Cpu, Shield } from 'lucide-react'
 
 interface FadeInProps {
   children: React.ReactNode;
@@ -31,6 +31,7 @@ const FadeIn: React.FC<FadeInProps> = ({ children, delay = 0, className = "" }) 
     }
     
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (ref.current) observer.disconnect()
     }
   }, [delay])
@@ -50,9 +51,9 @@ const ExperiencePage: React.FC = () => {
   const [textIndex, setTextIndex] = useState(0)
   
   const texts = useMemo(() => [
-    "Mining insights from user comments",
-    "Building data analysis pipelines",
-    "Extracting valuable information from social data"
+    "Building real-time multiplayer game logic",
+    "Implementing socket-based communication",
+    "Creating secure user authentication systems"
   ], []);
   
   useEffect(() => {
@@ -86,14 +87,12 @@ const ExperiencePage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
-      <div className="fixed inset-0 -z-10 bg-gradient-to-br from-background to-background via-primary/5"></div>
-      
+            
       <section className="relative h-[70vh] flex items-center justify-center text-center p-4">
         <div className="absolute inset-0 bg-primary/5 backdrop-blur-sm z-0"></div>
         <div className="container z-10 max-w-4xl">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-violet-500">
-            Bilibili Comment Crawler
+            Werewolf Game Server
           </h1>
           
           <div className="h-16 flex items-center justify-center mb-8">
@@ -122,8 +121,8 @@ const ExperiencePage: React.FC = () => {
               Project Overview
             </h2>
             <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
-              An advanced data extraction and analysis system designed to collect comment data from Bilibili,
-              one of China largest video platforms, to gain insights into user sentiments and engagement patterns.
+              A sophisticated backend system for the classic social deduction game &quot;Werewolf&quot;, supporting real-time multiplayer 
+              gameplay, user authentication, and game state management using Node.js and Socket.IO.
             </p>
           </FadeIn>
 
@@ -133,11 +132,11 @@ const ExperiencePage: React.FC = () => {
               
               <div className="space-y-6 border-l-2 border-primary/30 pl-6">
                 {[
-                  { title: "Initial Planning", date: "March 2022", description: "Analyzed Bilibili comment structure and API endpoints" },
-                  { title: "Architecture Design", date: "April 2022", description: "Designed crawler modules and database schema" },
-                  { title: "Development Phase", date: "May-July 2022", description: "Implemented core functionalities and anti-crawler mechanisms" },
-                  { title: "Testing & Optimization", date: "August 2022", description: "Performance testing and system optimization" },
-                  { title: "Deployment", date: "September 2022", description: "Deployed on cloud infrastructure with automated scheduling" }
+                  { title: "Initial Planning", date: "January 2021", description: "Designed game rules and server architecture" },
+                  { title: "Core Development", date: "February-March 2021", description: "Implemented user authentication and game room systems" },
+                  { title: "Game Logic", date: "April-May 2021", description: "Developed game state management and role-specific actions" },
+                  { title: "Socket Integration", date: "June 2021", description: "Implemented real-time communication between players" },
+                  { title: "Testing & Deployment", date: "July 2021", description: "Conducted stress tests and deployed on cloud infrastructure" }
                 ].map((item, i) => (
                   <div key={i} className="relative">
                     <div className="absolute -left-[31px] mt-1.5 w-3.5 h-3.5 bg-primary rounded-full"></div>
@@ -155,24 +154,24 @@ const ExperiencePage: React.FC = () => {
               <div className="space-y-6">
                 {[
                   { 
-                    title: "Anti-Crawler Mechanisms", 
-                    description: "Bilibili implements sophisticated anti-bot measures including IP rate limiting, JavaScript verification, and user behavior analysis.",
-                    icon: <Lock className="h-8 w-8 text-violet-500" />
+                    title: "Real-time Synchronization", 
+                    description: "Ensuring all players receive game state updates simultaneously with minimal latency, even under network fluctuations.",
+                    icon: <Globe className="h-8 w-8 text-violet-500" />
                   },
                   { 
-                    title: "Data Volume Management", 
-                    description: "Processing and storing millions of comments efficiently required optimized database schemas and indexing strategies.",
-                    icon: <Database className="h-8 w-8 text-violet-500" /> 
+                    title: "State Management", 
+                    description: "Building a robust state machine to handle complex game phases, role interactions, and voting mechanics.",
+                    icon: <Cpu className="h-8 w-8 text-violet-500" /> 
                   },
                   { 
-                    title: "Dynamic Content Loading", 
-                    description: "Comments are loaded dynamically via AJAX calls, requiring reverse engineering of API parameters and payload structures.",
-                    icon: <MessageSquare className="h-8 w-8 text-violet-500" /> 
-                  },
-                  { 
-                    title: "Performance Optimization", 
-                    description: "Balancing crawling speed with resource usage and avoiding detection required careful throttling and parallel processing.",
+                    title: "Connection Reliability", 
+                    description: "Handling player disconnections gracefully while maintaining game integrity through reconnection mechanisms.",
                     icon: <Server className="h-8 w-8 text-violet-500" /> 
+                  },
+                  { 
+                    title: "Security Implementation", 
+                    description: "Preventing cheating by securing communication channels and validating all player actions server-side.",
+                    icon: <Shield className="h-8 w-8 text-violet-500" /> 
                   }
                 ].map((item, i) => (
                   <div 
@@ -198,18 +197,18 @@ const ExperiencePage: React.FC = () => {
         <div className="container px-4 mx-auto max-w-6xl">
           <FadeIn>
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-violet-500">
-              Results & Insights
+              Results & Achievements
             </h2>
             <p className="text-lg text-center text-muted-foreground max-w-3xl mx-auto mb-16">
-              Analysis of the extracted data revealed unique patterns in user engagement and sentiment across different content types.
+              The Werewolf Game Server successfully delivered a seamless and engaging multiplayer experience with high performance and reliability.
             </p>
           </FadeIn>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {[
-              { number: "3.5M+", label: "Comments Collected", icon: <MessageSquare className="h-8 w-8 text-primary" /> },
-              { number: "25K+", label: "Unique Users", icon: <User className="h-8 w-8 text-primary" /> },
-              { number: "850+", label: "Videos Analyzed", icon: <Search className="h-8 w-8 text-primary" /> }
+              { number: "500+", label: "Concurrent Players", icon: <User className="h-8 w-8 text-primary" /> },
+              { number: "100ms", label: "Average Latency", icon: <Server className="h-8 w-8 text-primary" /> },
+              { number: "10K+", label: "Games Hosted", icon: <MessageSquare className="h-8 w-8 text-primary" /> }
             ].map((stat, i) => (
               <FadeIn key={i} delay={200 + i * 100}>
                 <div className="bg-card p-6 rounded-lg border border-border flex items-center shadow-sm">
@@ -229,26 +228,26 @@ const ExperiencePage: React.FC = () => {
             <div className="bg-card rounded-xl shadow-lg overflow-hidden border border-border p-8">
               <h3 className="text-2xl font-bold mb-8 flex items-center">
                 <LineChart className="h-6 w-6 mr-3 text-primary" />
-                Key Findings
+                Key Features
               </h3>
               
               <div className="space-y-8">
                 {[
                   {
-                    title: "Comment Engagement Patterns",
-                    description: "User engagement peaked during evenings (7-10 PM), with gaming and anime content receiving 3x more comments than educational videos."
+                    title: "Advanced Role System",
+                    description: "Implemented 12 unique character roles with special abilities, each with its own game logic and interaction rules."
                   },
                   {
-                    title: "Sentiment Analysis",
-                    description: "Using NLP techniques, we found that 65% of comments were positive, 25% neutral, and 10% negative across all analyzed videos."
+                    title: "Custom Game Settings",
+                    description: "Flexible configuration system allowing hosts to customize game rules, role distribution, and time limits for each phase."
                   },
                   {
-                    title: "User Behavior",
-                    description: "Higher level users (Lv.5+) were more likely to leave substantive comments, while lower level accounts tended toward shorter responses."
+                    title: "Anti-Cheat Mechanisms",
+                    description: "Server-side validation for all game actions and encrypted communication to prevent players from gaining unfair advantages."
                   },
                   {
-                    title: "Content Correlation",
-                    description: "Videos with frequent edits and high production quality correlated with more positive sentiment in the comment section."
+                    title: "Spectator Mode",
+                    description: "Real-time spectating functionality for eliminated players and observers with delayed information to maintain game integrity."
                   }
                 ].map((item, i) => (
                   <div 
@@ -274,9 +273,9 @@ const ExperiencePage: React.FC = () => {
             
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               {[
-                "Python", "MongoDB", "API Reverse Engineering", "Multi-threading", 
-                "Data Mining", "Anti-Crawler Techniques", "Web Scraping", 
-                "Data Analysis", "NoSQL Database", "Sentiment Analysis"
+                "Node.js", "Socket.IO", "Express", "MongoDB", 
+                "JWT Authentication", "State Machines", "WebSockets", 
+                "Redis", "Docker", "AWS Deployment", "Load Balancing", "Game Logic"
               ].map((skill, i) => (
                 <span 
                   key={i}
@@ -288,9 +287,9 @@ const ExperiencePage: React.FC = () => {
             </div>
             
             <p className="text-lg text-muted-foreground mb-10">
-              This project not only demonstrated technical proficiency in data extraction and analysis but also provided 
-              valuable insights into social media user behavior and content engagement patterns.
-              The methodologies developed can be applied to other platforms for broader digital media research.
+              This project demonstrated proficiency in creating scalable real-time applications with complex state management.
+              The architecture and patterns implemented have applications beyond gaming, including for chat systems,
+              collaborative tools, and other interactive web applications requiring real-time communication.
             </p>
             
             <Button size="lg" asChild className="bg-gradient-to-r from-purple-600 to-violet-500 hover:from-purple-700 hover:to-violet-600">

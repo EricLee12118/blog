@@ -3,15 +3,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Navbar from '@/components/main_page/Navbar'
 import Footer from '@/components/main_page/Footer'
-import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
-  ChevronLeft, 
-  ChevronRight, 
   Code, 
-  Database, 
   Languages, 
   LineChart, 
   MessageSquare, 
@@ -19,10 +15,27 @@ import {
   GitBranch,
   GitCommit,
   GitPullRequest,
-  CheckCircle
 } from 'lucide-react'
+import * as echarts from 'echarts/core'
+import { BarChart } from 'echarts/charts'
+import {
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent
+} from 'echarts/components'
+import { CanvasRenderer } from 'echarts/renderers'
+import GallerySection from '@/components/working/gallerySection'
 
-// Simplified fade-in animation component
+echarts.use([
+  BarChart,
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent,
+  CanvasRenderer
+])
+
 const FadeIn: React.FC<{
   children: React.ReactNode;
   delay?: number;
@@ -47,11 +60,11 @@ const FadeIn: React.FC<{
     }
     
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       if (ref.current) observer.disconnect()
     }
   }, [delay])
 
-  // Simplified transform logic
   const transforms = {
     up: `translateY(${isVisible ? 0 : 40}px)`,
     down: `translateY(${isVisible ? 0 : -40}px)`,
@@ -73,54 +86,147 @@ const FadeIn: React.FC<{
   )
 }
 
-const WorkExperiencePage: React.FC = () => {
-  // For image carousel
-  const [currentImage, setCurrentImage] = useState(0)
-  
-  // Example workplace images (replace with your actual images)
-  const workImages = [
-    "/placeholder-1.jpg",
-    "/placeholder-2.jpg",
-    "/placeholder-3.jpg",
-    "/placeholder-4.jpg",
-  ]
-  
-  // Auto-rotate carousel images
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % workImages.length)
-    }, 5000)
+const WorkExperiencePage: React.FC = () => {  
+  const chartRef = useRef<HTMLDivElement>(null)
     
-    return () => clearInterval(interval)
-  }, [workImages.length])
-  
   // Skills data
   const skills = [
-    { name: "React", level: 85 },
-    { name: "TypeScript", level: 80 },
-    { name: "API Integration", level: 75 },
-    { name: "ECharts", level: 70 },
-    { name: "SQL", level: 65 },
-    { name: "Unit Testing", level: 60 },
+    { name: "React.js", level: 85 },
+    { name: "Next.js", level: 80 },
+    { name: "Python", level: 75 },
+    { name: "Node.js", level: 70 },
+    { name: "Tailwind CSS", level: 65 },
+    { name: "Prisma", level: 60 },
   ]
   
   // GitLab contribution data
   const gitlabStats = {
-    commits: 127,
-    mergeRequests: 42,
-    issues: 38,
-    codeAdditions: "8,943 lines",
-    codeDeletions: "3,217 lines",
-    repositoriesContributed: 5
+    commits: 87,
+    mergeRequests: 27,
+    issues: 9,
+    codeAdditions: "18,94 lines",
+    codeDeletions: "3,27 lines",
+    repositoriesContributed: 3
   }
   
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const monthlyContributions = [
-    { month: "Jan", commits: 18 },
-    { month: "Feb", commits: 22 },
-    { month: "Mar", commits: 30 },
-    { month: "Apr", commits: 25 },
-    { month: "May", commits: 32 }
+    { month: "Feb", commits: 12 },
+    { month: "Mar", commits: 42 },
+    { month: "Apr", commits: 23 },
   ]
+  
+  useEffect(() => {
+    // 确保DOM已经渲染
+    if (!chartRef.current) return;
+    
+    // 初始化图表
+    const chartInstance = echarts.init(chartRef.current);
+    
+    // 定义图表配置
+    const option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        },
+        formatter: '{b}: {c} commits'
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '8%',
+        top: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        data: monthlyContributions.map(item => item.month),
+        axisTick: {
+          alignWithLabel: true
+        },
+        axisLine: {
+          lineStyle: {
+            color: '#888'
+          }
+        },
+        axisLabel: {
+          color: '#888',
+          fontSize: 12
+        }
+      },
+      yAxis: {
+        type: 'value',
+        splitLine: {
+          lineStyle: {
+            type: 'dashed',
+            color: 'rgba(150, 150, 150, 0.2)'
+          }
+        },
+        axisLabel: {
+          color: '#888',
+          fontSize: 10
+        }
+      },
+      series: [
+        {
+          name: 'Commits',
+          type: 'bar',
+          barWidth: '60%',
+          data: monthlyContributions.map(item => item.commits),
+          itemStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: 'rgba(118, 106, 252, 0.8)' },
+                { offset: 1, color: 'rgba(118, 106, 252, 0.4)' }
+              ]
+            },
+            borderRadius: [4, 4, 0, 0]
+          },
+          emphasis: {
+            itemStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  { offset: 0, color: 'rgba(118, 106, 252, 1)' },
+                  { offset: 1, color: 'rgba(118, 106, 252, 0.7)' }
+                ]
+              }
+            }
+          },
+          animationDelay: function(idx: number) {
+            return idx * 100;
+          }
+        }
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: function(idx: number) {
+        return idx * 5;
+      }
+    } as echarts.EChartsCoreOption; 
+    
+    chartInstance.setOption(option);
+    
+    const handleResize = () => {
+      chartInstance.resize();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      chartInstance.dispose();
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [monthlyContributions]);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -134,19 +240,19 @@ const WorkExperiencePage: React.FC = () => {
             <div className="md:w-1/2 mb-10 md:mb-0 md:pr-12">
               <Badge className="mb-4 text-xs px-3 py-1" variant="outline">Current Position</Badge>
               <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-                Software Development Intern
+                Software Development Engineer
               </h1>
               <div className="flex items-center mb-6 text-muted-foreground">
                 <Building className="h-5 w-5 mr-2" />
                 <span className="text-lg">eBram International Online Arbitration Center</span>
               </div>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Working on multilingual online arbitration translation platform development using 
-                React and TypeScript, with a focus on frontend component development, API integration,
-                and data visualization.
+                Working on multilingual online arbitration video conference real-time translation platform using 
+                React.js, developing core functionality modules including multi-language editing panel with 
+                synchronized scrolling and auto-switching subtitle system.
               </p>
               <div className="flex flex-wrap gap-2 mb-8">
-                {["React", "TypeScript", "ECharts", "ChatGPT API", "SQL", "Frontend Development"].map((tech, i) => (
+                {["React.js", "Tailwind CSS", "OpenAI API", "Azure", "Frontend Development"].map((tech, i) => (
                   <Badge key={i} variant="secondary" className="text-xs px-3 py-1">
                     {tech}
                   </Badge>
@@ -156,12 +262,19 @@ const WorkExperiencePage: React.FC = () => {
             
             {/* Company logo/image placeholder */}
             <div className="md:w-1/2 flex justify-center">
-              <div className="relative w-full max-w-md h-80 bg-card rounded-xl overflow-hidden shadow-lg border border-border">
+              <div 
+                className="relative w-full max-w-md h-80 bg-card rounded-xl overflow-hidden shadow-lg border border-border"
+                style={{
+                  backgroundImage: "url('/images/working/ebram.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center"
+                }}
+              >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
                 <div className="w-full h-full flex items-center justify-center">
                   <Building className="h-24 w-24 text-primary opacity-20" />
                   <div className="absolute bottom-6 left-6 z-20 text-white">
-                    <h3 className="text-xl font-bold">eBond International</h3>
+                    <h3 className="text-xl font-bold">eBram International</h3>
                     <p className="text-sm opacity-80">Online Arbitration Center</p>
                   </div>
                 </div>
@@ -170,6 +283,8 @@ const WorkExperiencePage: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      <GallerySection />
       
       {/* Responsibilities Section */}
       <section className="py-16 bg-muted/30">
@@ -186,28 +301,18 @@ const WorkExperiencePage: React.FC = () => {
               {
                 icon: <Code className="h-10 w-10 text-primary" />,
                 title: "Frontend Development",
-                description: "Developing and maintaining UI components using React and TypeScript for the multilingual online arbitration platform."
+                description: "Developing core functionality modules using React.js including multi-language editing panel with synchronized scrolling and subtitle interface."
               },
               {
                 icon: <Languages className="h-10 w-10 text-primary" />,
-                title: "Translation Integration",
-                description: "Assisting in the integration of ChatGPT API for multi-language document translation functionality and documentation."
-              },
-              {
-                icon: <LineChart className="h-10 w-10 text-primary" />,
-                title: "Data Visualization",
-                description: "Developing statistical dashboards with ECharts to visualize translation workload, completion rates, and other key metrics."
+                title: "Code Quality Improvement",
+                description: "Optimizing real-time synchronization logic for participant status, implementing adaptive text wrapping, and refactoring code to improve maintainability."
               },
               {
                 icon: <MessageSquare className="h-10 w-10 text-primary" />,
-                title: "Code Review",
-                description: "Participating in regular code reviews, bug fixing for frontend interface issues, and writing unit tests."
+                title: "API Integration",
+                description: "Assisting team with OpenAI translation service integration, developing middleware API for contract and legal document translation between Chinese, English and Cantonese."
               },
-              {
-                icon: <Database className="h-10 w-10 text-primary" />,
-                title: "Database Optimization",
-                description: "Collaborating with the development team on database query optimization and writing SQL statements and API test cases."
-              }
             ].map((item, i) => (
               <FadeIn key={i} delay={i * 100} className="h-full">
                 <Card className="h-full border-border hover:border-primary/50 transition-colors duration-300">
@@ -308,31 +413,8 @@ const WorkExperiencePage: React.FC = () => {
                     Monthly Activity
                   </h3>
                   
-                  <div className="h-60 flex items-end justify-between px-2">
-                    {monthlyContributions.map((month, i) => (
-                      <div key={i} className="flex flex-col items-center">
-                        <div 
-                          className="w-12 bg-primary/80 rounded-t-md transition-all duration-1000" 
-                          style={{ 
-                            height: `${(month.commits / 35) * 100}%`,
-                            transitionDelay: `${i * 100}ms`
-                          }}
-                        ></div>
-                        <div className="mt-2 text-sm text-muted-foreground">{month.month}</div>
-                        <div className="text-xs font-medium">{month.commits}</div>
-                      </div>
-                    ))}
-                  </div>
-                  
-                  <div className="mt-6 pt-4 border-t border-border">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Contribution Streak</span>
-                      <div className="flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-1 text-green-500" />
-                        <span className="font-medium">14 days</span>
-                      </div>
-                    </div>
-                  </div>
+                  {/* ECharts 柱状图 */}
+                  <div className="h-60" ref={chartRef}></div>
                 </CardContent>
               </Card>
             </FadeIn>
@@ -340,69 +422,12 @@ const WorkExperiencePage: React.FC = () => {
         </div>
       </section>
       
-      {/* Image Carousel Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-4">Workplace Gallery</h2>
-            <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-              A glimpse into my daily work environment and activities
-            </p>
-          </FadeIn>
-          
-          <div className="relative max-w-4xl mx-auto">
-            <div className="overflow-hidden rounded-xl border border-border shadow-md">
-              <div 
-                className="relative h-[400px] w-full bg-card flex items-center justify-center"
-              >
-                {/* Replace with your actual images */}
-                <p className="text-muted-foreground">Image carousel placeholder</p>
-                <Building className="absolute h-24 w-24 text-muted-foreground/20" />
-              </div>
-            </div>
             
-            <div className="absolute top-1/2 -translate-y-1/2 -left-4 z-10">
-              <Button 
-                variant="secondary" 
-                size="icon" 
-                className="rounded-full shadow-md"
-                onClick={() => setCurrentImage((prev) => (prev - 1 + workImages.length) % workImages.length)}
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </Button>
-            </div>
-            
-            <div className="absolute top-1/2 -translate-y-1/2 -right-4 z-10">
-              <Button 
-                variant="secondary" 
-                size="icon" 
-                className="rounded-full shadow-md"
-                onClick={() => setCurrentImage((prev) => (prev + 1) % workImages.length)}
-              >
-                <ChevronRight className="h-5 w-5" />
-              </Button>
-            </div>
-            
-            <div className="flex justify-center mt-4 gap-2">
-              {workImages.map((_, i) => (
-                <button
-                  key={i}
-                  className={`w-3 h-3 rounded-full transition-colors duration-200 ${
-                    currentImage === i ? 'bg-primary' : 'bg-muted-foreground/30'
-                  }`}
-                  onClick={() => setCurrentImage(i)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
       
-      {/* Projects & Skills Section - SIMPLIFIED */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <FadeIn>
-            <h2 className="text-3xl font-bold text-center mb-4">Projects & Skills</h2>
+            <h2 className="text-3xl font-bold text-center mb-4">MileStones & Skills</h2>
             <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
               An overview of the projects I have contributed to and the skills I have developed
             </p>
@@ -410,7 +435,7 @@ const WorkExperiencePage: React.FC = () => {
           
           <Tabs defaultValue="projects" className="max-w-4xl mx-auto">
             <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="projects">Key Projects</TabsTrigger>
+              <TabsTrigger value="projects">MileStones</TabsTrigger>
               <TabsTrigger value="skills">Technical Skills</TabsTrigger>
             </TabsList>
             
@@ -418,28 +443,16 @@ const WorkExperiencePage: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {[
                   {
-                    title: "Multilingual Translation Interface",
-                    description: "Developed React components for document translation interface with real-time language switching and ChatGPT API integration.",
-                    technologies: ["React", "TypeScript", "ChatGPT API"],
+                    title: "Multi-language Editing System",
+                    description: "Developed synchronized scrolling multi-language editing panel system for real-time translation during arbitration video conferences.",
+                    technologies: ["React.js", "Tailwind CSS", "Context API"],
                     highlight: "Improved translation workflow efficiency by 40%"
                   },
                   {
-                    title: "Statistical Dashboard",
-                    description: "Created interactive charts using ECharts to visualize translation workload, completion rates, and other key performance metrics.",
-                    technologies: ["ECharts", "React", "REST API"],
-                    highlight: "Enabled data-driven decision making for project planning"
-                  },
-                  {
-                    title: "Database Query Optimization",
-                    description: "Collaborated on optimizing SQL queries and database structure to improve application performance for large document sets.",
-                    technologies: ["SQL", "API Integration", "Performance Testing"],
-                    highlight: "Reduced query response time by 35%"
-                  },
-                  {
-                    title: "Unit Testing Framework",
-                    description: "Implemented comprehensive unit tests for frontend components to ensure reliability and catch regressions early.",
-                    technologies: ["Jest", "React Testing Library", "CI/CD"],
-                    highlight: "Achieved 80% test coverage for core components"
+                    title: "OpenAI Translation Integration",
+                    description: "Assisted in developing middleware API for integrating OpenAI translation services for contract and legal documents in Chinese, English and Cantonese.",
+                    technologies: ["OpenAI API", "Azure", "Node.js"],
+                    highlight: "Achieved translation response time under 10ms"
                   }
                 ].map((project, i) => (
                   <FadeIn key={i} delay={i * 100} direction="up">
@@ -487,10 +500,10 @@ const WorkExperiencePage: React.FC = () => {
                       <h3 className="text-xl font-bold mb-4">Additional Skills & Technologies</h3>
                       <div className="flex flex-wrap gap-2">
                         {[
-                          "Git & Version Control", "RESTful API Design", "ChatGPT Integration",
-                          "UI/UX Design Principles", "Performance Optimization", "Cross-browser Compatibility",
-                          "Frontend Testing", "Responsive Design", "Code Documentation",
-                          "Agile Development", "API Documentation", "CI/CD Workflows"
+                          "Git & Version Control", "API Integration", "OpenAI",
+                          "UI/UX Design", "React Native", "Vue.js",
+                          "MongoDB", "Firebase", "Supabase",
+                          "Prisma", "MySQL", "PostgreSQL"
                         ].map((skill, i) => (
                           <Badge key={i} variant="secondary" className="text-xs px-3 py-1">
                             {skill}
@@ -512,27 +525,27 @@ const WorkExperiencePage: React.FC = () => {
           <FadeIn>
             <h2 className="text-3xl font-bold text-center mb-4">Key Achievements</h2>
             <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-              Highlights of my contributions and accomplishments during my internship
+              Highlights of my contributions and accomplishments during my work
             </p>
           </FadeIn>
           
           <div className="space-y-8">
             {[
               {
-                title: "Translation Efficiency Improvement",
-                description: "Contributed to integration of ChatGPT API for automated document translation that reduced manual translation time by 60%."
+                title: "Multi-language Support System",
+                description: "Developed synchronized scrolling multi-language editing panel with automatic language switching subtitle interface for arbitration video conferences."
               },
               {
-                title: "Performance Optimization",
-                description: "Identified and resolved frontend performance bottlenecks, improving page load times by 45% for document-heavy interfaces."
+                title: "Code Quality Improvement",
+                description: "Optimized participant status real-time synchronization logic, implemented adaptive text wrapping for different screen sizes, and refactored code to separate business logic, UI components and utility functions."
               },
               {
-                title: "Data Visualization Dashboard",
-                description: "Developed comprehensive analytics dashboard with ECharts that provided critical insights for project management decisions."
+                title: "OpenAI Translation Integration",
+                description: "Assisted in integrating OpenAI translation services through middleware API development, supporting real-time translation of contract and legal documents between Chinese, English and Cantonese."
               },
               {
-                title: "Code Quality",
-                description: "Implemented standardized code review processes and unit testing practices that reduced bug rates in production by 30%."
+                title: "Azure Cloud Optimization",
+                description: "Helped configure Azure cloud services to optimize translation response speed, controlling translation delay within 10ms for real-time video conference use."
               }
             ].map((achievement, i) => (
               <FadeIn key={i} delay={i * 100} direction="left">

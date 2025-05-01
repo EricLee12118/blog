@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { MoonStar, Sun, Menu } from 'lucide-react'; //SunDim
-// import { Slider } from '@/components/ui/slider';
+import { MoonStar, Sun, Menu } from 'lucide-react'; 
 import { useTheme } from '@/providers/ThemeProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -47,7 +46,7 @@ const Navbar = () => {
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
-            {['Home', 'Profile', 'Experience', 'Current Work', 'Engineering'].map((item, index) => (
+            {['Home', 'Profile', 'Project', 'Working', 'Hobby'].map((item, index) => (
               <Link 
                 key={index}
                 href={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`} 
@@ -96,26 +95,6 @@ const Navbar = () => {
                 </motion.div>
               </Button>
             </div>
-            
-            {/* Brightness Slider (Desktop) */}
-            {/* <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="hidden md:flex flex-col items-center p-3 bg-background/90 backdrop-blur-md rounded-full shadow-lg border border-primary/20"
-            >
-              <Sun className="h-5 w-5 text-primary mb-3" />
-              <Slider
-                value={[brightness]}
-                onValueChange={(values) => setBrightness(values[0])}
-                max={100}
-                min={20}
-                step={5}
-                orientation="vertical"
-                className="h-32 w-2"
-              />
-              <SunDim className="h-5 w-5 text-primary mt-3" />
-            </motion.div> */}
           </motion.div>
         )}
       </AnimatePresence>
