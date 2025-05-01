@@ -19,7 +19,7 @@ const HeroSection = () => (
       <div className="flex justify-center md:justify-end">
         <div className="relative w-60 h-60 md:w-80 md:h-80 overflow-hidden rounded-full border-4 border-primary/30 animate-glow">
           <Image 
-            src="/images/profile/avatar.jpg" 
+            src="/images/profile/avatar.png" 
             alt="Profile Photo" 
             fill
             className="object-cover"

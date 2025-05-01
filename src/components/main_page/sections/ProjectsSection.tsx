@@ -6,21 +6,21 @@ import ProjectCard from '@/components/main_page/ProjectCard';
 const ProjectsSection = () => {
   const projects = [
     {
-      title: "E-commerce Platform",
-      description: "A modern shopping experience",
-      content: "A full-featured e-commerce platform with product management, shopping cart, and payment processing.",
-      technologies: ["Next.js", "Prisma", "Stripe", "Vercel"],
+      title: "Mobile Chat Application",
+      description: "Real-time messaging platform",
+      content: "A mobile chat application with real-time messaging, online status management, and responsive UI. Features include message persistence, user authentication, and optimized image loading.",
+      technologies: ["React Native", "Socket.IO", "Flask", "PostgreSQL", "Tailwind CSS", "Expo Clerk"],
       image: "/images/projects/project1.webp",
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/EricLee12118/SmartPhoneProject",
       demoUrl: "#"
     },
     {
-      title: "Task Management App",
-      description: "Stay organized and productive",
-      content: "A collaborative task management application with real-time updates, notifications, and team workspaces.",
-      technologies: ["React", "Node.js", "Socket.io", "MongoDB"],
+      title: "Video Conference Platform",
+      description: "Multi-language legal conferencing solution",
+      content: "A specialized video conference platform with real-time translation capabilities for legal documents and contracts. Optimized for responsive design and efficient participant status synchronization.",
+      technologies: ["React.js", "Tailwind CSS", "OpenAI API", "WebRTC"],
       image: "/images/projects/project2.webp",
-      githubUrl: "https://github.com",
+      githubUrl: "https://github.com/EricLee12118/werewolf-front",
       demoUrl: "#"
     }
   ];
